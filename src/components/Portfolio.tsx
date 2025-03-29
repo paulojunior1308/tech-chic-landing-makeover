@@ -9,25 +9,25 @@ const portfolioCategories = [
       {
         title: "Moda Style",
         description: "E-commerce fictício chamado Moda Style, desenvolvido em React, JavaScript, HTML e CSS.",
-        image: "./src/images/modastyle.png",
+        image: "/images/modastyle.png",
         link: "https://modastyle.netlify.app/"
       },
       {
         title: "JB Queijos e Laticínios",
         description: "E-commerce real com propósito de chamar clientes e fazer o primeiro atendimento, desenvolvido em React, JavaScript, HTML e CSS.",
-        image: "./src/images/jbqueijos.png",
+        image: "/images/jbqueijos.png",
         link: "https://jbqueijoslaticinios.netlify.app/"
       },
       {
         title: "Cida Confeiteira",
         description: "E-commerce real com propósito de chamar clientes e fazer o primeiro atendimento, desenvolvido em React, JavaScript, HTML e CSS.",
-        image: "./src/images/cidabolos.png",
+        image: "/images/cidabolos.png",
         link: "https://cidabolos.netlify.app/"
       },
       {
         title: "Claudio Revendedor Natura",
         description: "Landing page para divulgar produtos da marca Natura, desenvolvido em React, JavaScript, HTML e CSS.",
-        image: "./src/images/natura.png",
+        image: "/images/natura.png",
         link: "https://claudiorevendedornatura.netlify.app/"
       }
     ]
