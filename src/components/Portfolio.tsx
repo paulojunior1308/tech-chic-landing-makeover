@@ -38,7 +38,7 @@ const portfolioCategories = [
       {
         title: "Manutenção de notebooks",
         description: "Troca da carcaça da tela de um notebook.",
-        video: "./src/images/manutencao.mp4",
+        video: "images/manutencao.mp4",
         type: "video"
       }
     ]
