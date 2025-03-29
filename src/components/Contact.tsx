@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Phone, Mail, MapPin, MessageSquare, Send } from "lucide-react";
 
@@ -45,7 +44,7 @@ const Contact = () => {
                   <div className="p-2 bg-tech-700/50 rounded-full mr-3">
                     <Phone className="h-5 w-5" />
                   </div>
-                  <span>+55 (11) 99999-9999</span>
+                  <span>(11) 94988-5625</span>
                 </div>
                 
                 <div className="flex items-center">
@@ -63,71 +62,59 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-            
-            <button
-              onClick={handleWhatsAppContact}
-              className="button-shine flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-medium transition-colors shadow-md hover:shadow-lg mt-auto"
-            >
-              <MessageSquare className="h-5 w-5" />
-              Fale conosco pelo WhatsApp
-            </button>
           </div>
           
-          <form onSubmit={handleSubmit} className="glass-dark rounded-2xl p-8">
-            <div className="space-y-5">
-              <div>
-                <label htmlFor="name" className="block mb-2 text-sm font-medium">
-                  Nome
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white focus:ring-2 focus:ring-tech-300 focus:border-transparent outline-none"
-                  placeholder="Seu nome"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white focus:ring-2 focus:ring-tech-300 focus:border-transparent outline-none"
-                  placeholder="Seu email"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block mb-2 text-sm font-medium">
-                  Mensagem
-                </label>
-                <textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={5}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white focus:ring-2 focus:ring-tech-300 focus:border-transparent outline-none resize-none"
-                  placeholder="Como podemos ajudar?"
-                  required
-                ></textarea>
-              </div>
-              
-              <button
-                type="submit"
-                className="button-shine flex items-center justify-center gap-2 w-full bg-tech-500 hover:bg-tech-600 text-white px-6 py-3 rounded-md font-medium transition-colors shadow-md hover:shadow-lg"
-              >
-                <Send className="h-5 w-5" />
-                Enviar mensagem
-              </button>
+          <form 
+            data-netlify="true"
+            method="POST"
+            name="contact"
+            onSubmit={handleSubmit}
+            className="glass-dark rounded-2xl p-8 space-y-6"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            
+            <div>
+              <label className="text-white">Nome</label>
+              <input
+                name="name"
+                type="text"
+                placeholder="Seu nome"
+                className="w-full p-4 rounded-lg bg-white/10 text-white placeholder:text-gray-400"
+                required
+              />
             </div>
+            
+            <div>
+              <label className="text-white">Email</label>
+              <input
+                name="email"
+                type="email"
+                placeholder="Seu email"
+                className="w-full p-4 rounded-lg bg-white/10 text-white placeholder:text-gray-400"
+                required
+              />
+            </div>
+            
+            <div>
+              <label className="text-white">Mensagem</label>
+              <textarea
+                name="message"
+                placeholder="Como podemos ajudar?"
+                className="w-full p-4 rounded-lg bg-white/10 text-white placeholder:text-gray-400"
+                rows={4}
+                required
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="button-shine w-full flex items-center justify-center gap-2 bg-tech-500 text-white px-6 py-4 rounded-xl font-medium hover:bg-tech-600 transition-colors"
+            >
+              <span>Enviar mensagem</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
           </form>
         </div>
       </div>

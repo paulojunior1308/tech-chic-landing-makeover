@@ -1,5 +1,4 @@
-
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Phone } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,18 +12,22 @@ const Footer = () => {
             <p className="text-white/70 mb-6">
               Soluções tecnológicas que transformam o seu negócio e potencializam seus resultados.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="p-2 rounded-full bg-tech-800 hover:bg-tech-700 transition-colors">
-                <Facebook className="h-5 w-5" />
+            <div className="flex gap-4">
+              <a
+                href="https://www.facebook.com/people/Jr-Cell/100054458381347/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <Facebook className="h-5 w-5 text-white" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-tech-800 hover:bg-tech-700 transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="p-2 rounded-full bg-tech-800 hover:bg-tech-700 transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="p-2 rounded-full bg-tech-800 hover:bg-tech-700 transition-colors">
-                <Linkedin className="h-5 w-5" />
+              <a
+                href="https://www.instagram.com/jr.tech_solutions/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <Instagram className="h-5 w-5 text-white" />
               </a>
             </div>
           </div>
@@ -52,7 +55,12 @@ const Footer = () => {
             <ul className="space-y-3 text-white/70">
               <li>São Paulo, SP - Brasil</li>
               <li>contato@jrtechsolutions.com</li>
-              <li>+55 (11) 99999-9999</li>
+              <li>
+                <div className="flex items-center gap-2">
+                  <Phone className="h-5 w-5 text-white" />
+                  <span className="text-white">(11) 94988-5625</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>

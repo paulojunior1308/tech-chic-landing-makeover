@@ -1,46 +1,40 @@
-
 import { 
-  Monitor, 
-  Smartphone, 
-  Code2, 
-  Lightbulb, 
-  LineChart, 
-  ShieldCheck, 
+  Network, 
+  Server, 
+  Router,
+  Printer,
+  Globe,
   Clock, 
-  Zap 
+  Zap,
+  ShieldCheck 
 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const services = [
   {
-    title: "Desenvolvimento Web",
-    description: "Criação de sites responsivos, landing pages e aplicações web com tecnologias modernas.",
-    icon: <Monitor className="h-10 w-10 text-tech-500" />,
+    title: "Infraestrutura de Rede",
+    description: "Descrição dos serviços de configuração e manutenção de redes.",
+    icon: <Network className="h-10 w-10 text-tech-500" />,
   },
   {
-    title: "Aplicativos Mobile",
-    description: "Desenvolvimento de aplicativos nativos e híbridos para iOS e Android.",
-    icon: <Smartphone className="h-10 w-10 text-tech-500" />,
+    title: "Configuração de Servidores",
+    description: "Detalhes sobre instalação, configuração e manutenção de servidores.",
+    icon: <Server className="h-10 w-10 text-tech-500" />,
   },
   {
-    title: "Soluções Personalizadas",
-    description: "Desenvolvimento de softwares sob medida para as necessidades específicas do seu negócio.",
-    icon: <Code2 className="h-10 w-10 text-tech-500" />,
+    title: "Equipamentos de Rede",
+    description: "Serviços relacionados a roteadores, switches e outros dispositivos de rede.",
+    icon: <Router className="h-10 w-10 text-tech-500" />,
   },
   {
-    title: "Consultoria em TI",
-    description: "Análise e implementação de soluções tecnológicas para otimizar seus processos.",
-    icon: <Lightbulb className="h-10 w-10 text-tech-500" />,
+    title: "Configuração de Computadores e Impressoras",
+    description: "Suporte técnico e instalação de computadores e impressoras.",
+    icon: <Printer className="h-10 w-10 text-tech-500" />,
   },
   {
-    title: "Business Intelligence",
-    description: "Transforme dados em insights valiosos para sua tomada de decisão.",
-    icon: <LineChart className="h-10 w-10 text-tech-500" />,
-  },
-  {
-    title: "Segurança Digital",
-    description: "Proteja seus dados e aplicações com nossas soluções de segurança.",
-    icon: <ShieldCheck className="h-10 w-10 text-tech-500" />,
+    title: "Desenvolvimento de Sites e Sistemas Web",
+    description: "Desenvolvimento de sites e sistemas web personalizados.",
+    icon: <Globe className="h-10 w-10 text-tech-500" />,
   },
 ];
 
@@ -101,21 +95,40 @@ const Services = () => {
           ref={servicesRef} 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
         >
-          {services.map((service, index) => (
-            <div 
-              key={index} 
-              className="service-card highlight-card bg-white hover:bg-gradient-to-b from-white to-tech-50 opacity-0"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="p-3 rounded-2xl bg-tech-50 mb-5">
-                  {service.icon}
+          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.slice(0, 3).map((service, index) => (
+              <div 
+                key={index} 
+                className="service-card highlight-card bg-white hover:bg-gradient-to-b from-white to-tech-50 opacity-0"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="flex flex-col items-center text-center p-6">
+                  <div className="p-4 rounded-2xl bg-tech-50 mb-5 transform transition-transform hover:scale-110">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                  <p className="text-muted-foreground">{service.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground">{service.description}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3 mx-auto">
+            {services.slice(3).map((service, index) => (
+              <div 
+                key={index + 3} 
+                className="service-card highlight-card bg-white hover:bg-gradient-to-b from-white to-tech-50 opacity-0"
+                style={{ animationDelay: `${(index + 3) * 100}ms` }}
+              >
+                <div className="flex flex-col items-center text-center p-6">
+                  <div className="p-4 rounded-2xl bg-tech-50 mb-5 transform transition-transform hover:scale-110">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                  <p className="text-muted-foreground">{service.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-20 bg-gradient-tech rounded-3xl p-10 text-white">

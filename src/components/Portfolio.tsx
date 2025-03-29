@@ -1,189 +1,182 @@
-
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, ArrowRight } from "lucide-react";
+import { useInView } from 'react-intersection-observer';
 
-const projects = [
+const portfolioCategories = [
   {
-    title: "E-commerce Dashboard",
-    category: "Desenvolvimento Web",
-    description: "Dashboard administrativo para gestão de produtos, pedidos e clientes de uma loja virtual.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+    name: "Desenvolvimento de Sites",
+    projects: [
+      {
+        title: "Moda Style",
+        description: "E-commerce fictício chamado Moda Style, desenvolvido em React, JavaScript, HTML e CSS.",
+        image: "./src/images/modastyle.png",
+        link: "https://modastyle.netlify.app/"
+      },
+      {
+        title: "JB Queijos e Laticínios",
+        description: "E-commerce real com propósito de chamar clientes e fazer o primeiro atendimento, desenvolvido em React, JavaScript, HTML e CSS.",
+        image: "./src/images/jbqueijos.png",
+        link: "https://jbqueijoslaticinios.netlify.app/"
+      },
+      {
+        title: "Cida Confeiteira",
+        description: "E-commerce real com propósito de chamar clientes e fazer o primeiro atendimento, desenvolvido em React, JavaScript, HTML e CSS.",
+        image: "./src/images/cidabolos.png",
+        link: "https://cidabolos.netlify.app/"
+      },
+      {
+        title: "Claudio Revendedor Natura",
+        description: "Landing page para divulgar produtos da marca Natura, desenvolvido em React, JavaScript, HTML e CSS.",
+        image: "./src/images/natura.png",
+        link: "https://claudiorevendedornatura.netlify.app/"
+      }
+    ]
   },
   {
-    title: "Aplicativo de Delivery",
-    category: "Aplicativo Mobile",
-    description: "Aplicativo de pedidos online para restaurantes com sistema de rastreamento em tempo real.",
-    image: "https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Sistema de Gestão Empresarial",
-    category: "Software Personalizado",
-    description: "ERP customizado para otimização de processos internos de uma indústria.",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Plataforma Educacional",
-    category: "Desenvolvimento Web",
-    description: "Ambiente virtual de aprendizagem com recursos interativos e gestão de cursos.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "App de Gestão Financeira",
-    category: "Aplicativo Mobile",
-    description: "Aplicativo para controle financeiro pessoal com relatórios detalhados e categorização automática.",
-    image: "https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Painel de Business Intelligence",
-    category: "Data Visualization",
-    description: "Dashboard analítico para visualização de KPIs e métricas empresariais em tempo real.",
-    image: "https://images.unsplash.com/photo-1553484771-11998c592b9c?q=80&w=2070&auto=format&fit=crop",
-  },
+    name: "Configuração e Manutenção",
+    projects: [
+      {
+        title: "Manutenção de notebooks",
+        description: "Troca da carcaça da tela de um notebook.",
+        video: "./src/images/manutencao.mp4",
+        type: "video"
+      }
+    ]
+  }
 ];
 
 const Portfolio = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [showControls, setShowControls] = useState(false);
-  const projectsRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [filter, setFilter] = useState("Todos");
   
-  const handlePrevious = () => {
-    setActiveIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
-  };
+  const { ref: titleRef, inView: titleIsVisible } = useInView({ triggerOnce: true });
+  const { ref: buttonsRef, inView: buttonsAreVisible } = useInView({ triggerOnce: true });
+  const { ref: cardsRef, inView: cardsAreVisible } = useInView({ triggerOnce: true });
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fadeIn");
-          }
-        });
-      },
-      { threshold: 0.1 }
+  const nextSlide = () => {
+    const category = portfolioCategories[activeCategory];
+    setActiveSlide((prev) => 
+      prev === category.projects.length ? 0 : prev + 1
     );
+  };
 
-    const cards = projectsRef.current?.querySelectorAll(".project-card");
-    cards?.forEach((card) => {
-      observer.observe(card);
-    });
-
-    return () => {
-      cards?.forEach((card) => {
-        observer.unobserve(card);
-      });
-    };
-  }, []);
+  const prevSlide = () => {
+    const category = portfolioCategories[activeCategory];
+    setActiveSlide((prev) => 
+      prev === 0 ? category.projects.length : prev - 1
+    );
+  };
 
   return (
-    <section id="portfolio" className="bg-tech-50 py-24">
-      <div className="section">
-        <h2 className="section-title text-center">Nosso Portfólio</h2>
-        <p className="section-subtitle text-center">
-          Conheça alguns dos projetos que desenvolvemos para nossos clientes
-        </p>
-        
-        {/* Mobile Carousel */}
-        <div className="relative mt-12 md:hidden">
-          <div 
-            className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-tech-100"
-            onMouseEnter={() => setShowControls(true)}
-            onMouseLeave={() => setShowControls(false)}
+    <section className="py-16 px-4 md:px-8">
+      <div 
+        ref={titleRef}
+        className={`transform transition-all duration-700 ${
+          titleIsVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}
+      >
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+          Portfólio
+        </h2>
+      </div>
+
+      {/* Botões de categoria */}
+      <div 
+        ref={buttonsRef}
+        className={`flex justify-center gap-4 mt-8 mb-12 transform transition-all duration-700 delay-200 ${
+          buttonsAreVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}
+      >
+        {portfolioCategories.map((category) => (
+          <button
+            key={category.name}
+            onClick={() => {
+              setActiveCategory(portfolioCategories.indexOf(category));
+              setActiveSlide(0);
+            }}
+            className={`button-shine flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-medium transition-colors
+              ${activeCategory === portfolioCategories.indexOf(category)
+                ? "bg-tech-500 text-white hover:bg-tech-600"
+                : "bg-white text-gray-600 hover:bg-tech-50"
+              }`}
           >
-            <div className="absolute inset-0 bg-black/20 z-10"></div>
-            <img 
-              src={projects[activeIndex].image} 
-              alt={projects[activeIndex].title}
-              className="w-full h-full object-cover transition-transform duration-500"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20 bg-gradient-to-t from-black/80 to-transparent">
-              <span className="text-sm font-medium text-tech-300 block mb-1">
-                {projects[activeIndex].category}
-              </span>
-              <h3 className="text-xl font-bold mb-2">{projects[activeIndex].title}</h3>
-              <p className="text-white/80 text-sm">{projects[activeIndex].description}</p>
-            </div>
-            
-            {/* Navigation Buttons */}
-            <button 
-              onClick={handlePrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Previous project"
-            >
-              <ChevronLeft className="h-5 w-5 text-white" />
-            </button>
-            <button 
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Next project"
-            >
-              <ChevronRight className="h-5 w-5 text-white" />
-            </button>
+            {category.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Carrossel */}
+      <div className="relative max-w-xs mx-auto mt-8">
+        <div 
+          ref={sliderRef}
+          className="overflow-hidden rounded-xl shadow-lg bg-white transform transition-all duration-700 hover:scale-105"
+        >
+          {/* Título da categoria */}
+          <div className="p-4 text-center bg-gradient-tech text-white">
+            <h3 className="text-lg font-semibold">
+              {portfolioCategories[activeCategory].name}
+            </h3>
           </div>
-          
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-4">
-            {projects.map((_, i) => (
-              <button
-                key={i}
-                className={`h-2 rounded-full transition-all ${
-                  i === activeIndex ? "w-8 bg-tech-500" : "w-2 bg-tech-300"
+
+          {/* Conteúdo do slide */}
+          <div className="p-4">
+            {portfolioCategories[activeCategory].projects.map((project, index) => (
+              <div
+                key={project.title}
+                className={`transition-opacity duration-300 ${
+                  index === activeSlide ? "opacity-100" : "opacity-0 hidden"
                 }`}
-                onClick={() => setActiveIndex(i)}
-                aria-label={`Go to project ${i + 1}`}
-              />
+              >
+                <div className="h-[180px] overflow-hidden rounded-lg mb-3">
+                  {project.type === "video" ? (
+                    <video 
+                      controls 
+                      className="w-full h-full object-cover"
+                    >
+                      <source src={project.video} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+                
+                <div className="text-center px-2">
+                  <h4 className="text-base font-semibold mb-2">{project.title}</h4>
+                  <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="button-shine flex items-center justify-center gap-2 bg-tech-500 text-white px-6 py-4 rounded-xl font-medium hover:bg-tech-600 transition-colors"
+                    >
+                      Acesse o site
+                      <ArrowRight className="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         </div>
-        
-        {/* Desktop Grid */}
-        <div 
-          ref={projectsRef}
-          className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
-        >
-          {projects.map((project, index) => (
-            <div 
-              key={index} 
-              className="project-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group opacity-0"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-5 text-white w-full">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-tech-200">
-                        {project.category}
-                      </span>
-                      <a href="#" className="text-white hover:text-tech-200 transition-colors">
-                        <ExternalLink className="h-5 w-5" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-                <p className="text-muted-foreground text-sm">{project.description}</p>
-              </div>
-            </div>
+
+        {/* Controles do carrossel */}
+        <div className="flex justify-center gap-1.5 mt-3">
+          {portfolioCategories[activeCategory].projects.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveSlide(index)}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                index === activeSlide ? "bg-tech-500" : "bg-gray-300"
+              }`}
+            />
           ))}
-        </div>
-        
-        <div className="flex justify-center mt-12">
-          <a 
-            href="#contact" 
-            className="button-shine bg-tech-600 hover:bg-tech-700 text-white px-6 py-3 rounded-md font-medium transition-colors shadow-md hover:shadow-lg"
-          >
-            Vamos trabalhar juntos?
-          </a>
         </div>
       </div>
     </section>
