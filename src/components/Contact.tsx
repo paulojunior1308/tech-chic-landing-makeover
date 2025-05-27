@@ -14,13 +14,26 @@ const Contact = () => {
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Normalmente você enviaria os dados para um backend aqui
-    console.log({ name, email, message });
-    
-    // Para este exemplo, apenas redirecionamos para o WhatsApp
-    handleWhatsAppContact();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/sendmail.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.text();
+      if (result === 'ok') {
+        alert('Mensagem enviada com sucesso!');
+        form.reset();
+      } else {
+        alert('Erro ao enviar mensagem.');
+      }
+    } catch (error) {
+      alert('Erro ao enviar mensagem.');
+    }
   };
   
   return (
