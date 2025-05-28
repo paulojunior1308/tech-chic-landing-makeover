@@ -57,7 +57,7 @@ const Contact = () => {
                   <div className="p-2 bg-tech-700/50 rounded-full mr-3">
                     <Mail className="h-5 w-5" />
                   </div>
-                  <span>contato@jrtechsolutions.com</span>
+                  <span>contato@jrtechnologysolutions.com.br</span>
                 </div>
                 
                 <div className="flex items-start">

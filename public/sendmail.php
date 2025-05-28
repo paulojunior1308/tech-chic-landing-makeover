@@ -2,32 +2,34 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-echo "Início do script<br>";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "Recebi um POST<br>";
-    $nome = $_POST['nome'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $mensagem = $_POST['mensagem'] ?? '';
+require __DIR__ . '/PHPMailer-master/src/Exception.php';
+require __DIR__ . '/PHPMailer-master/src/PHPMailer.php';
+require __DIR__ . '/PHPMailer-master/src/SMTP.php';
 
-    echo "Nome: $nome<br>Email: $email<br>Mensagem: $mensagem<br>";
+$mail = new PHPMailer(true);
 
-    $to = "contato@jrtechnologysolutions.com.br";
-    $subject = "Nova mensagem do site";
-    $body = "Nome: $nome\nEmail: $email\nMensagem:\n$mensagem";
-    $headers = "From: $email\r\nReply-To: $email\r\n";
+try {
+    $mail->isSMTP();
+    $mail->Host = 'smtp.appuni.com.br';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'contato@jrtechnologysolutions.com.br'; // seu e-mail completo
+    $mail->Password = 'SENHA'; // sua senha do e-mail
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
 
-    if (mail($to, $subject, $body, $headers)) {
-        echo "ok";
-    } else {
-        echo "Erro ao enviar e-mail via PHP mail().<br>";
-        if (function_exists('mail')) {
-            echo "A função mail() existe.<br>";
-        } else {
-            echo "A função mail() NÃO existe.<br>";
-        }
-    }
-} else {
-    echo "Método não permitido";
+    $mail->setFrom('contato@jrtechnologysolutions.com.br', 'Contato Site');
+    $mail->addAddress('contato@jrtechnologysolutions.com.br');
+
+    $mail->isHTML(false);
+    $mail->Subject = 'Nova mensagem do site';
+    $mail->Body    = "Nome: {$_POST['name']}\nEmail: {$_POST['email']}\nMensagem:\n{$_POST['message']}";
+
+    $mail->send();
+    echo 'ok';
+} catch (Exception $e) {
+    echo "Erro ao enviar: {$mail->ErrorInfo}";
 }
 ?>
