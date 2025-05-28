@@ -6,13 +6,6 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   
-  const handleWhatsAppContact = () => {
-    // Substitua pelo seu número de WhatsApp no formato internacional
-    const phoneNumber = "5511999999999";
-    const text = "Olá, gostaria de saber mais sobre seus serviços!";
-    
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, "_blank");
-  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +25,7 @@ const Contact = () => {
         alert('Erro ao enviar mensagem.');
       }
     } catch (error) {
-      alert('Erro ao enviar mensagem.');
+      alert('Erro ao enviar mensagem.' + error);
     }
   };
   
@@ -78,13 +71,11 @@ const Contact = () => {
           </div>
           
           <form 
-            data-netlify="true"
             method="POST"
             name="contact"
             onSubmit={handleSubmit}
             className="glass-dark rounded-2xl p-8 space-y-6"
           >
-            <input type="hidden" name="form-name" value="contact" />
             
             <div>
               <label className="text-white">Nome</label>
