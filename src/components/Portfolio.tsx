@@ -25,6 +25,12 @@ const portfolioCategories = [
         link: "https://cidabolos.netlify.app/"
       },
       {
+        title: "Adega Element",
+        description: "Sistema completo de delivery e gestão para adegas, desenvolvido com React no frontend e Node.js com Prisma no backend. Conta com funcionalidades como vendas fracionadas (doses), controle de estoque e caixa, painel administrativo e área do cliente com experiência semelhante ao iFood.",
+        image: "/images/adega-element.png",
+        link: "https://adega-element.netlify.app/"
+      },
+      {
         title: "Claudio Revendedor Natura",
         description: "Landing page para divulgar produtos da marca Natura, desenvolvido em React, JavaScript, HTML e CSS.",
         image: "/images/natura.png",
@@ -57,16 +63,12 @@ const Portfolio = () => {
 
   const nextSlide = () => {
     const category = portfolioCategories[activeCategory];
-    setActiveSlide((prev) => 
-      prev === category.projects.length ? 0 : prev + 1
-    );
+    setActiveSlide((prev) => (prev + 1) % category.projects.length);
   };
 
   const prevSlide = () => {
     const category = portfolioCategories[activeCategory];
-    setActiveSlide((prev) => 
-      prev === 0 ? category.projects.length : prev - 1
-    );
+    setActiveSlide((prev) => (prev - 1 + category.projects.length) % category.projects.length);
   };
 
   return (
@@ -129,7 +131,7 @@ const Portfolio = () => {
                   index === activeSlide ? "opacity-100" : "opacity-0 hidden"
                 }`}
               >
-                <div className="h-[180px] overflow-hidden rounded-lg mb-3">
+                <div className="h-[180px] overflow-hidden rounded-lg mb-3 bg-gray-100">
                   {project.type === "video" ? (
                     <video 
                       controls 
@@ -142,7 +144,7 @@ const Portfolio = () => {
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover"
-                    />
+                      />
                   )}
                 </div>
                 
